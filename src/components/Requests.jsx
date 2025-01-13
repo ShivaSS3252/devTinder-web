@@ -2,12 +2,26 @@ import axios from "axios";
 import React from "react";
 import { Base_url } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequests } from "../utils/requestSlice";
+import { addRequests, removeRequests } from "../utils/requestSlice";
 import { useEffect } from "react";
+import { useState } from "react";
 
 const Requests = () => {
   const requests = useSelector((store) => store.requests);
   const dispatch = useDispatch();
+  const [showbutton, setShowbutton] = useState(true);
+  const reviewRequest = async (status, _id) => {
+    try {
+      const res = await axios.post(
+        Base_url + "/request/review/" + status + "/" + _id,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeRequests(_id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const fetchRequests = async () => {
     try {
       const res = await axios.get(Base_url + "/user/requests/received", {
@@ -22,7 +36,8 @@ const Requests = () => {
     fetchRequests();
   }, []);
   if (!requests) return;
-  if (requests.length === 0) return <h1>No requests found</h1>;
+  if (requests.length === 0)
+    return <h1 className="flex justify-center my-10">No requests found</h1>;
   return (
     <div className=" text-center my-20">
       <h1 className="text-bold text-white text-3xl">Connection Requests</h1>
@@ -49,10 +64,16 @@ const Requests = () => {
               <p>{about}</p>
             </div>
             <div>
-              <button className="btn btn-active btn-primary mx-2">
+              <button
+                className="btn btn-active btn-primary mx-2"
+                onClick={() => reviewRequest("rejected", request._id)}
+              >
                 Reject
               </button>
-              <button className="btn btn-active btn-secondary mx-2">
+              <button
+                className="btn btn-active btn-secondary mx-2"
+                onClick={() => reviewRequest("accepted", request._id)}
+              >
                 Accept
               </button>
             </div>
