@@ -19,12 +19,20 @@ const Navbar = () => {
       console.error(err);
     }
   };
+
+  const handleNavigation = () => {
+    navigate("/"); // Navigate to Feed
+    window.location.reload(); // Force refresh
+  };
   return (
     <div className="navbar bg-base-300">
       <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl">
-          👨‍💻DevConnect
-        </Link>
+        <div className="text-xl">👨‍💻DevConnect</div>
+        {user && (
+          <button onClick={handleNavigation} className="btn btn-ghost text-xl">
+            💬 Start Connecting
+          </button>
+        )}
       </div>
       {user && (
         <div className="flex-none gap-2">
@@ -36,9 +44,20 @@ const Navbar = () => {
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
-              <div className="w-10 rounded-full">
-                <img alt="user" src={user.photoUrl} />
-              </div>
+              {user.photoUrl ? (
+                <div className="w-10 rounded-full">
+                  <img alt="user" src={user.photoUrl} />
+                </div>
+              ) : (
+                <div className="w-10 rounded-full">
+                  <img
+                    alt="user"
+                    src={
+                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                    }
+                  />
+                </div>
+              )}
             </div>
             <ul
               tabIndex={0}
@@ -47,7 +66,6 @@ const Navbar = () => {
               <li>
                 <Link to="/profile" className="justify-between">
                   Profile
-                  <span className="badge">New</span>
                 </Link>
               </li>
               <li>
@@ -56,6 +74,10 @@ const Navbar = () => {
               <li>
                 <Link to="/requests">Requests</Link>
               </li>
+              <li>
+                <Link to="/bookmark">Bookmark</Link>
+              </li>
+
               <li>
                 <a onClick={handleLogout}>Logout</a>
               </li>

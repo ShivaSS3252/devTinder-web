@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Navbar from "./Navbar";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 import axios from "axios";
 import { Base_url } from "../utils/constants";
@@ -9,20 +9,20 @@ import { addUser } from "../utils/userSlice";
 
 const Body = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.user);
   const fetchUser = async () => {
-    if (userData) return;
     try {
-      const res = await axios.get(Base_url + "/profile/view", {
-        withCredentials: true,
+      const res = await axios.get(`${Base_url}/profile/view`, {
+        withCredentials: true, // Required for cookies/auth
       });
       dispatch(addUser(res.data));
     } catch (err) {
+      console.error("Error fetching user:", err);
       if (err.status === 401) {
         navigate("/login");
       }
-      console.error(err);
     }
   };
 
@@ -32,7 +32,7 @@ const Body = () => {
   return (
     <div>
       <Navbar />
-      <Outlet />
+      <Outlet key={location.pathname} />
       <Footer />
     </div>
   );
