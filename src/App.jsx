@@ -1,25 +1,37 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Body from "./components/Body";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import appStore from "./utils/appStore";
 import Feed from "./components/Feed";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import Bookmark from "./components/Bookmark";
 import { ToastContainer } from "react-toastify";
+
 function App() {
+  const isAuthenticated = localStorage.getItem("isAuthenticated"); // Check authentication
+
   return (
     <>
       <ToastContainer position="top-right" autoClose={2000} />
       <Provider store={appStore}>
         <BrowserRouter basename="/">
           <Routes>
-            <Route path="/" element={<Body />}>
+            {/* If the user is not authenticated, redirect to the login page */}
+            <Route
+              path="/login"
+              element={isAuthenticated ? <Navigate to="/" /> : <Login />}
+            />
+
+            {/* Render Body only if authenticated, else redirect to login */}
+            <Route
+              path="/"
+              element={isAuthenticated ? <Body /> : <Navigate to="/login" />}
+            >
               <Route path="/" element={<Feed />} />
-              <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/connections" element={<Connections />} />
               <Route path="/requests" element={<Requests />} />
