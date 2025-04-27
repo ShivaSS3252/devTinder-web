@@ -21,17 +21,9 @@ function App() {
         <BrowserRouter basename="/">
           <Routes>
             {/* If the user is not authenticated, redirect to the login page */}
-            <Route
-              path="/login"
-              element={isAuthenticated ? <Navigate to="/" /> : <Login />}
-            />
-
-            {/* Render Body only if authenticated, else redirect to login */}
-            <Route
-              path="/"
-              element={isAuthenticated ? <Body /> : <Navigate to="/login" />}
-            >
+            <Route path="/" element={<Body />}>
               <Route path="/" element={<Feed />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/connections" element={<Connections />} />
               <Route path="/requests" element={<Requests />} />
