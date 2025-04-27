@@ -21,7 +21,7 @@ const Bookmark = () => {
   const fetchbookMark = async () => {
     try {
       const res = await axios.get(
-        process.env.REACT_BACKEND_URL + "/bookmarked-profiles",
+        import.meta.env.VITE_BACKEND_URL + "/bookmarked-profiles",
         {
           withCredentials: true,
         }
@@ -37,7 +37,7 @@ const Bookmark = () => {
   const handleUnbookmark = async (userId) => {
     try {
       await axios.delete(
-        `${process.env.REACT_BACKEND_URL}/bookmark/${userId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/bookmark/${userId}`,
         {
           withCredentials: true,
         }
@@ -57,7 +57,7 @@ const Bookmark = () => {
   const handleReBookmark = async (userId) => {
     try {
       await axios.put(
-        `${process.env.REACT_BACKEND_URL}/bookmark/${userId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/bookmark/${userId}`,
         {},
         { withCredentials: true }
       );

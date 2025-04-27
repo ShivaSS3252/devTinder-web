@@ -12,7 +12,11 @@ const Requests = () => {
   const reviewRequest = async (status, _id) => {
     try {
       const res = await axios.post(
-        process.env.REACT_BACKEND_URL + "/request/review/" + status + "/" + _id,
+        import.meta.env.VITE_BACKEND_URL +
+          "/request/review/" +
+          status +
+          "/" +
+          _id,
         {},
         { withCredentials: true }
       );
@@ -24,7 +28,7 @@ const Requests = () => {
   const fetchRequests = async () => {
     try {
       const res = await axios.get(
-        process.env.REACT_BACKEND_URL + "/user/requests/received",
+        import.meta.env.VITE_BACKEND_URL + "/user/requests/received",
         {
           withCredentials: true,
         }

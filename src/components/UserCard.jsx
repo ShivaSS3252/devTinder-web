@@ -8,6 +8,7 @@ import { addbookmark, removeBookmark } from "../utils/bookmarkSlice";
 import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 const UserCard = ({ user }) => {
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
   const dispatch = useDispatch();
   const bookmarks = useSelector((store) => store.bookmark.bookmarkedProfiles);
 
@@ -34,7 +35,7 @@ const UserCard = ({ user }) => {
     try {
       const requestBody = status === "ignored" ? {} : { message };
       await axios.post(
-        `${process.env.REACT_BACKEND_URL}/request/send/${status}/${userid}`,
+        `${API_URL}/request/send/${status}/${userid}`,
         requestBody,
         { withCredentials: true }
       );
@@ -54,26 +55,20 @@ const UserCard = ({ user }) => {
   const handleBookMarkToggle = async (userId) => {
     try {
       if (isBookmarked) {
-        await axios.delete(
-          `${process.env.REACT_BACKEND_URL}/bookmarkFeed/${userId}`,
-          {
-            withCredentials: true,
-          }
-        );
+        await axios.delete(`${API_URL}/bookmarkFeed/${userId}`, {
+          withCredentials: true,
+        });
         dispatch(removeBookmark(userId));
         toast.info("Removed from Bookmarks!");
       } else {
         await axios.post(
-          `${process.env.REACT_BACKEND_URL}/bookmark`,
+          `${API_URL}/bookmark`,
           { bookmarkedUserId: userId },
           { withCredentials: true }
         );
-        const res = await axios.get(
-          `${process.env.REACT_BACKEND_URL}/bookmarked-profiles`,
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await axios.get(`${API_URL}/bookmarked-profiles`, {
+          withCredentials: true,
+        });
         dispatch(addbookmark(res?.data?.bookmarkedProfiles)); // Update Redux store
         toast.success("Added to Bookmarks!");
       }
@@ -88,7 +83,7 @@ const UserCard = ({ user }) => {
     try {
       const requestBody = status === "ignored" ? {} : { message };
       await axios.post(
-        `${process.env.REACT_BACKEND_URL}/request/send/ignored/${userid}`,
+        `${API_URL}/request/send/ignored/${userid}`,
         requestBody,
         { withCredentials: true }
       );

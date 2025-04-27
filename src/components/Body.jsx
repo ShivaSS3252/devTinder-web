@@ -14,7 +14,7 @@ const Body = () => {
   const fetchUser = async () => {
     try {
       const res = await axios.get(
-        `${process.env.REACT_BACKEND_URL}/profile/view`,
+        `${import.meta.env.VITE_BACKEND_URL}/profile/view`,
         {
           withCredentials: true, // Required for cookies/auth
         }

@@ -19,7 +19,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        process.env.REACT_BACKEND_URL + "/login",
+        import.meta.env.VITE_BACKEND_URL + "/login",
         {
           emailId,
           password,
@@ -42,7 +42,7 @@ const Login = () => {
   const handleSignUp = async () => {
     try {
       const res = await axios.post(
-        process.env.REACT_BACKEND_URL + "/signup",
+        import.meta.env.VITE_BACKEND_URL + "/signup",
         { firstName, lastName, emailId, password },
         { withCredentials: true }
       );

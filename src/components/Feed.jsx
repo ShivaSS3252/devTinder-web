@@ -19,7 +19,7 @@ const Feed = () => {
   const fetchbookMark = async () => {
     try {
       const res = await axios.get(
-        process.env.REACT_BACKEND_URL + "/bookmarked-profiles",
+        import.meta.env.VITE_BACKEND_URL + "/bookmarked-profiles",
         {
           withCredentials: true,
         }
@@ -34,7 +34,7 @@ const Feed = () => {
   const getFeed = async () => {
     if (feed) return;
     try {
-      const res = await axios.get(process.env.REACT_BACKEND_URL + "/feed", {
+      const res = await axios.get(import.meta.env.VITE_BACKEND_URL + "/feed", {
         withCredentials: true,
       });
       dispatch(addFeed(res?.data?.data));

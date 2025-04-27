@@ -10,7 +10,7 @@ const Connections = () => {
   const fetchConnections = async () => {
     try {
       const res = await axios.get(
-        process.env.REACT_BACKEND_URL + "/user/connections",
+        import.meta.env.VITE_BACKEND_URL + "/user/connections",
         {
           withCredentials: true,
         }
@@ -24,7 +24,7 @@ const Connections = () => {
   const handleUnfollow = async (connectionId) => {
     try {
       await axios.post(
-        `${process.env.REACT_BACKEND_URL}/request/unfollow/${connectionId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/request/unfollow/${connectionId}`,
         {},
         { withCredentials: true }
       );

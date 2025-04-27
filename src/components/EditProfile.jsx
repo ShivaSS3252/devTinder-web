@@ -19,7 +19,7 @@ const EditProfile = ({ user }) => {
     setError(""); // Reset error state
     try {
       const res = await axios.post(
-        process.env.REACT_BACKEND_URL + "/profile/edit", // Endpoint URL
+        import.meta.env.VITE_BACKEND_URL + "/profile/edit", // Endpoint URL
         {
           firstName,
           lastName,
