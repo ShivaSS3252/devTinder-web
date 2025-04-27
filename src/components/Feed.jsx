@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Base_url } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../utils/feedSlice";
 import UserCard from "./UserCard";
@@ -19,9 +18,12 @@ const Feed = () => {
   );
   const fetchbookMark = async () => {
     try {
-      const res = await axios.get(Base_url + "/bookmarked-profiles", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        process.env.REACT_BACKEND_URL + "/bookmarked-profiles",
+        {
+          withCredentials: true,
+        }
+      );
 
       dispatch(addbookmark(res?.data?.bookmarkedProfiles));
       dispatch(addPreviousBookmark(res?.data?.previouslyBookmarkedProfiles));
@@ -32,7 +34,7 @@ const Feed = () => {
   const getFeed = async () => {
     if (feed) return;
     try {
-      const res = await axios.get(Base_url + "/feed", {
+      const res = await axios.get(process.env.REACT_BACKEND_URL + "/feed", {
         withCredentials: true,
       });
       dispatch(addFeed(res?.data?.data));

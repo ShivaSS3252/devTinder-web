@@ -3,7 +3,6 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
-import { Base_url } from "../utils/constants";
 import { clearFeed } from "../utils/feedSlice";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 const Login = () => {
@@ -20,7 +19,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        Base_url + "/login",
+        process.env.REACT_BACKEND_URL + "/login",
         {
           emailId,
           password,
@@ -43,7 +42,7 @@ const Login = () => {
   const handleSignUp = async () => {
     try {
       const res = await axios.post(
-        Base_url + "/signup",
+        process.env.REACT_BACKEND_URL + "/signup",
         { firstName, lastName, emailId, password },
         { withCredentials: true }
       );

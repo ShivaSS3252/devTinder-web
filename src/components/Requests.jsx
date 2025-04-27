@@ -1,6 +1,5 @@
 import axios from "axios";
 import React from "react";
-import { Base_url } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addRequests, removeRequests } from "../utils/requestSlice";
 import { useEffect } from "react";
@@ -13,7 +12,7 @@ const Requests = () => {
   const reviewRequest = async (status, _id) => {
     try {
       const res = await axios.post(
-        Base_url + "/request/review/" + status + "/" + _id,
+        process.env.REACT_BACKEND_URL + "/request/review/" + status + "/" + _id,
         {},
         { withCredentials: true }
       );
@@ -24,9 +23,12 @@ const Requests = () => {
   };
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(Base_url + "/user/requests/received", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        process.env.REACT_BACKEND_URL + "/user/requests/received",
+        {
+          withCredentials: true,
+        }
+      );
       dispatch(addRequests(res?.data?.data));
     } catch (err) {
       console.error(err);
@@ -87,6 +89,13 @@ const Requests = () => {
               {about && (
                 <div className="max-w-xs max-h-20 overflow-y-auto p-2 bg-gray-800 rounded-md">
                   <p className="text-gray-200 text-sm">{about}</p>
+                </div>
+              )}
+              {request?.message && (
+                <div className="max-w-xs max-h-20 overflow-y-auto p-2 rounded-md">
+                  <p className="text-gray-200 text-sm">
+                    Message : {request?.message}
+                  </p>
                 </div>
               )}
             </div>

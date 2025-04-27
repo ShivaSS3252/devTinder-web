@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Base_url } from "../utils/constants";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -21,9 +20,12 @@ const Bookmark = () => {
 
   const fetchbookMark = async () => {
     try {
-      const res = await axios.get(Base_url + "/bookmarked-profiles", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        process.env.REACT_BACKEND_URL + "/bookmarked-profiles",
+        {
+          withCredentials: true,
+        }
+      );
 
       dispatch(addbookmark(res?.data?.bookmarkedProfiles));
       dispatch(addPreviousBookmark(res?.data?.previouslyBookmarkedProfiles));
@@ -34,9 +36,12 @@ const Bookmark = () => {
 
   const handleUnbookmark = async (userId) => {
     try {
-      await axios.delete(`${Base_url}/bookmark/${userId}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `${process.env.REACT_BACKEND_URL}/bookmark/${userId}`,
+        {
+          withCredentials: true,
+        }
+      );
 
       dispatch(removeBookmark(userId));
       toast.success("Profile Unbookmarked");
@@ -52,7 +57,7 @@ const Bookmark = () => {
   const handleReBookmark = async (userId) => {
     try {
       await axios.put(
-        `${Base_url}/bookmark/${userId}`,
+        `${process.env.REACT_BACKEND_URL}/bookmark/${userId}`,
         {},
         { withCredentials: true }
       );

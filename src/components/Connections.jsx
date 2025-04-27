@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Base_url } from "../utils/constants";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connectionSlice";
@@ -10,9 +9,12 @@ const Connections = () => {
   const connections = useSelector((store) => store.connections);
   const fetchConnections = async () => {
     try {
-      const res = await axios.get(Base_url + "/user/connections", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        process.env.REACT_BACKEND_URL + "/user/connections",
+        {
+          withCredentials: true,
+        }
+      );
       dispatch(addConnections(res?.data?.data));
     } catch (err) {
       console.error(err);
@@ -22,7 +24,7 @@ const Connections = () => {
   const handleUnfollow = async (connectionId) => {
     try {
       await axios.post(
-        `${Base_url}/request/unfollow/${connectionId}`,
+        `${process.env.REACT_BACKEND_URL}/request/unfollow/${connectionId}`,
         {},
         { withCredentials: true }
       );

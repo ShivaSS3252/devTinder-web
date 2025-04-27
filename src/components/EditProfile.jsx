@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UserCard from "./UserCard";
-import { Base_url } from "../utils/constants";
 import { addUser } from "../utils/userSlice";
 
 const EditProfile = ({ user }) => {
@@ -20,7 +19,7 @@ const EditProfile = ({ user }) => {
     setError(""); // Reset error state
     try {
       const res = await axios.post(
-        Base_url + "/profile/edit", // Endpoint URL
+        process.env.REACT_BACKEND_URL + "/profile/edit", // Endpoint URL
         {
           firstName,
           lastName,

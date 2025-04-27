@@ -2,17 +2,19 @@ import axios from "axios";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Base_url } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log("userer", user);
   const handleLogout = async () => {
     try {
-      await axios.post(Base_url + "/logout", {}, { withCredentials: true });
+      await axios.post(
+        process.env.REACT_BACKEND_URL + "/logout",
+        {},
+        { withCredentials: true }
+      );
       dispatch(removeUser());
       return navigate("/login");
     } catch (err) {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Base_url } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { removeUserFromFeed, addFeed } from "../utils/feedSlice";
 import { Bookmark, BookmarkCheck } from "lucide-react"; // Bookmark icons
@@ -9,7 +8,6 @@ import { addbookmark, removeBookmark } from "../utils/bookmarkSlice";
 import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 const UserCard = ({ user }) => {
-  console.log("usercarddetails", user);
   const dispatch = useDispatch();
   const bookmarks = useSelector((store) => store.bookmark.bookmarkedProfiles);
 
@@ -36,11 +34,10 @@ const UserCard = ({ user }) => {
     try {
       const requestBody = status === "ignored" ? {} : { message };
       await axios.post(
-        `${Base_url}/request/send/${status}/${userid}`,
+        `${process.env.REACT_BACKEND_URL}/request/send/${status}/${userid}`,
         requestBody,
         { withCredentials: true }
       );
-      console.log("reqssned", `${Base_url}/request/send/${status}/${userid}`);
       dispatch(removeUserFromFeed(userid));
       if (status === "interested") {
         toast.success("Profile is marked as Interested!");
@@ -57,20 +54,26 @@ const UserCard = ({ user }) => {
   const handleBookMarkToggle = async (userId) => {
     try {
       if (isBookmarked) {
-        await axios.delete(`${Base_url}/bookmarkFeed/${userId}`, {
-          withCredentials: true,
-        });
+        await axios.delete(
+          `${process.env.REACT_BACKEND_URL}/bookmarkFeed/${userId}`,
+          {
+            withCredentials: true,
+          }
+        );
         dispatch(removeBookmark(userId));
         toast.info("Removed from Bookmarks!");
       } else {
         await axios.post(
-          `${Base_url}/bookmark`,
+          `${process.env.REACT_BACKEND_URL}/bookmark`,
           { bookmarkedUserId: userId },
           { withCredentials: true }
         );
-        const res = await axios.get(`${Base_url}/bookmarked-profiles`, {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `${process.env.REACT_BACKEND_URL}/bookmarked-profiles`,
+          {
+            withCredentials: true,
+          }
+        );
         dispatch(addbookmark(res?.data?.bookmarkedProfiles)); // Update Redux store
         toast.success("Added to Bookmarks!");
       }
@@ -85,7 +88,7 @@ const UserCard = ({ user }) => {
     try {
       const requestBody = status === "ignored" ? {} : { message };
       await axios.post(
-        `${Base_url}/request/send/ignored/${userid}`,
+        `${process.env.REACT_BACKEND_URL}/request/send/ignored/${userid}`,
         requestBody,
         { withCredentials: true }
       );
