@@ -22,7 +22,7 @@ const Body = () => {
       dispatch(addUser(res.data));
     } catch (err) {
       console.error("Error fetching user:", err);
-      if (err.status === 404) {
+      if (err.status === 401) {
         navigate("/login");
       }
     }
