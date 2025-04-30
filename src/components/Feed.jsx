@@ -29,6 +29,9 @@ const Feed = () => {
       dispatch(addPreviousBookmark(res?.data?.previouslyBookmarkedProfiles));
     } catch (err) {
       console.error(err);
+      if (err.status === 401) {
+        navigate("/login");
+      }
     }
   };
   const getFeed = async () => {
@@ -40,6 +43,9 @@ const Feed = () => {
       dispatch(addFeed(res?.data?.data));
     } catch (err) {
       console.error(err);
+      if (err.status === 401) {
+        navigate("/login");
+      }
     }
   };
 
