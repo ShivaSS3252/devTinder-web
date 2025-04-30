@@ -12,6 +12,7 @@ const Body = () => {
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.user);
   const fetchUser = async () => {
+    if (userData) return;
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/profile/view`,
@@ -34,7 +35,7 @@ const Body = () => {
   return (
     <div>
       <Navbar />
-      <Outlet key={location.pathname} />
+      <Outlet />
       <Footer />
     </div>
   );
